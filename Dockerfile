@@ -1,4 +1,4 @@
-FROM logstash:2.3.1
+FROM logstash:5
 
 RUN logstash-plugin install --development
 
@@ -8,11 +8,10 @@ ARG PATTERN_CONFIG
 ARG FILTER_TESTS
 ARG PATTERN_TESTS
 
+ADD $LST/test       /test
+ADD $FILTER_CONFIG  /test/spec/filter_config
 ADD $PATTERN_CONFIG /etc/logstash/patterns
-ADD $LST/test /test
-ADD $FILTER_CONFIG /test/spec/filter_config
-ADD $FILTER_TESTS /test/spec/filter_data
-ADD $PATTERN_TESTS /test/spec/pattern_data
+ADD $FILTER_TESTS   /test/spec/filter_data
+ADD $PATTERN_TESTS  /test/spec/pattern_data
 
-ENTRYPOINT ["/test/run-tests.sh"]
-# ENTRYPOINT ["bash"]
+ADD bin/rspec /usr/local/bin/rspec
