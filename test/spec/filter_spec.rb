@@ -1,14 +1,15 @@
 # coding: utf-8
-require "logstash/devutils/rspec/spec_helper"
-require "rspec/expectations"
+require 'logstash/devutils/rspec/spec_helper'
+require 'rspec/expectations'
 require 'json'
 
 # Load the test cases
 filter_data = Dir[File.join(File.dirname(__FILE__), 'filter_data/**/*.json')]
 
 # Load the logstash filter config files
-files = Dir[File.join(File.dirname(__FILE__), 'filter_config/*.filter.conf')]
 @@configuration = String.new
+files = Dir[File.join(File.dirname(__FILE__), 'filter_config/*.conf')]
+
 files.sort.each do |file|
   @@configuration << File.read(file)
 end
