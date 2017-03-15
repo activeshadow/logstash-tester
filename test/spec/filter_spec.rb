@@ -80,12 +80,12 @@ filter_data.each do |data_file|
   # Count test cases in this file
   test_case = JSON.parse(File.read(data_file))
 
-  (0..(test_case['cases'].length-1)).each do |i|
+  test_case['cases'].each_with_index do |tcase,i|
     describe "#{File.basename(data_file)}##{i}" do
+      # The `config` method is provided by
+      # logstash-devutils/lib/logstash/devutils/rspec/logstash_helpers.rb.
       config(@@configuration)
-      test_case = JSON.parse(File.read(data_file))
-      run_case(test_case['cases'][i], test_case['fields'], test_case['ignore'], data_file, i)
+      run_case(tcase, test_case['fields'], test_case['ignore'], data_file, i)
     end
   end
 end
-
